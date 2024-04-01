@@ -11,6 +11,7 @@ public class RecordingController : MonoBehaviour {
     MeshRenderer recordingRenderer;
     BoxCollider boxCollider;
     Rigidbody rb;
+    SubtitleController subtitleController;
 
     //bool inRange = false;
     public bool recordingCollected = false;
@@ -20,6 +21,7 @@ public class RecordingController : MonoBehaviour {
         recordingRenderer = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
+        subtitleController = GetComponent<SubtitleController>();
     }
 
     //private void OnTriggerEnter(Collider other) {
@@ -50,6 +52,8 @@ public class RecordingController : MonoBehaviour {
         if (!recordingCollected) {
             //play the audio clip associated with this recording
             voiceRecording.Play();
+
+            subtitleController.StartSubtitles();
 
             recordingCollected = true;
 
