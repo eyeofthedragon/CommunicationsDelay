@@ -31,6 +31,7 @@ public class BoxController : MonoBehaviour {
             else {
                 rb.drag = drag;
                 rb.angularDrag = angularDrag;
+                rb.mass = 500;
             }
         }
     }

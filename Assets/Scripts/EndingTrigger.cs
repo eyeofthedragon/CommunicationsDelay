@@ -10,6 +10,7 @@ public class EndingTrigger : MonoBehaviour {
     public MailboxController mailbox;
     public NoteController note;
     public Image fader;
+    public Image cursor;
     public DialogueManager dialogueManager;
 
     bool alreadyPlayed = false;
@@ -20,7 +21,8 @@ public class EndingTrigger : MonoBehaviour {
             alreadyPlayed = true;
 
             //fade to black
-            fader.DOFade(1, 0.8f);
+            cursor.gameObject.SetActive(false);
+            fader.DOFade(1, 2f);
         }
     }
 

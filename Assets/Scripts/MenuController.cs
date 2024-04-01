@@ -11,6 +11,8 @@ public class MenuController : MonoBehaviour {
     private void Start() {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainMenu")) {
             fadeIn();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -34,6 +36,6 @@ public class MenuController : MonoBehaviour {
     }
 
     void fadeIn() {
-        fader.DOFade(0, 0.5f);
+        fader.DOFade(0, 1);
     }
 }

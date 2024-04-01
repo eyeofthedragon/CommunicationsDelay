@@ -23,12 +23,11 @@ public class DialogueManager : MonoBehaviour {
     Node currentNode;
     Queue<string> sentences;
     bool canContinueToNextLine;
-    //AudioSource source;
-    //AudioClip talkingClip;
+    AudioSource source;
 
     private void Start() {
         sentences = new Queue<string>();
-        //source = GetComponent<AudioSource>();
+        source = GetComponent<AudioSource>();
 
     }
 
@@ -96,9 +95,9 @@ public class DialogueManager : MonoBehaviour {
             dialogueText.maxVisibleCharacters++;
 
             //dialogueText.text += letters[i];
-            //if (i % 4 == 0) {
-            //    source.PlayOneShot(talkingClip);
-            //}
+            if (i % 4 == 0) {
+                source.Play();
+            }
             yield return new WaitForSeconds(textSpeed);
         }
 

@@ -259,12 +259,12 @@ public class PlayerMovement : MonoBehaviour {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         //use more force if we're holding something so the jump reaches the same height
-        if (attachedObject != null) {
-            rb.AddForce(transform.up * jumpForce * rb.mass * 2, ForceMode.Impulse);
-        }
-        else {
+       // if (attachedObject != null) {
             rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
-        }
+       // }
+      //  else {
+            //rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
+       // }
         
     }
 
@@ -309,7 +309,7 @@ public class PlayerMovement : MonoBehaviour {
 
             //cubeRb.drag = 15;
             //cubeRb.angularDrag = 10;
-            cubeRb.mass = 5;
+            cubeRb.mass = 500;
 
             //cubeRb.drag = 0;
             //need to add a cube controller that checks for ground and sets drag only if on ground
