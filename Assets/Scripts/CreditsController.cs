@@ -1,0 +1,61 @@
+using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class CreditsController : MonoBehaviour
+{
+    public TMP_Text titleText;
+    public TMP_Text authorText;
+    public TMP_Text credits1;
+    public TMP_Text credits2;
+
+    private float timer = 0;
+    private bool[] eventsTriggered = new bool[4];
+
+    private void Start() {
+        titleText.alpha = 0;
+        authorText.alpha = 0;
+        credits1.alpha = 0;
+        credits2.alpha = 0;
+    }
+
+    private void Update() {
+        timer += Time.deltaTime;
+
+        //Fade in title
+        //Hold on title
+        //Fade out title
+        //Fade in text
+        //Hold on text
+        //Fade out text 
+        //Go to main menu
+
+
+        if (timer > 16) {
+            SceneManager.LoadScene("MainMenu");
+        }
+        else if (timer > 14 && !eventsTriggered[3]) {
+            credits1.DOFade(0, 2);
+            credits2.DOFade(0, 2);
+            eventsTriggered[3] = true;
+        }
+        else if (timer > 8 && !eventsTriggered[2]) {
+            credits1.DOFade(1, 3);
+            credits2.DOFade(1, 3);
+            eventsTriggered[2] = true;
+        }
+        else if (timer > 6 && !eventsTriggered[1]) {
+            titleText.DOFade(0, 2);
+            authorText.DOFade(0, 2);
+            eventsTriggered[1] = true;
+        }
+        else if (!eventsTriggered[0]) {
+            titleText.DOFade(1, 3);
+            authorText.DOFade(1, 3);
+            eventsTriggered[0] = true;
+        }
+    }
+}
