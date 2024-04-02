@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour {
     float horizontalInput;
     float verticalInput;
 
-    float itemInteractionDistance = 2; //?
+    float itemInteractionDistance = 2.25f;
     bool cast;
     RaycastHit hit;
     RaycastHit standingBox;
@@ -74,14 +74,15 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
-        if (!dialogueManager.dialogueIsPlaying) {
+        if (!dialogueManager.dialogueIsPlaying) { //no moving while dialogue plays
+
             //ground check so there's no drag in the air
+            //isGrounded and isOnBox are always used together, but we need standingBox as a separate variable, so that's why we need to check both
             isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundMask);
             isOnBox = Physics.Raycast(transform.position, Vector3.down, out standingBox, playerHeight * 0.5f + 0.2f, boxMask);
 
             //check for objects in range
             cast = Physics.Raycast(orientation.position, orientation.forward, out hit, itemInteractionDistance);
-            Debug.DrawLine(orientation.position, hit.point);
 
             if (attachedObject == null) {
                 if (cast && hit.transform.CompareTag("Mailbox") && !hit.transform.GetComponent<MailboxController>().mailDelivered && inMailDeliveryZone && (isGrounded || isOnBox)) {
@@ -113,7 +114,7 @@ public class PlayerMovement : MonoBehaviour {
 
                 cubeRb.useGravity = true;
                 cubeRb.freezeRotation = false;
-                cubeRb.mass = 5;
+                cubeRb.mass = 500;
 
                 attachedObject = null;
             }
@@ -154,8 +155,7 @@ public class PlayerMovement : MonoBehaviour {
         verticalInput = Input.GetAxisRaw("Vertical");
 
         if ((horizontalInput != 0 || verticalInput != 0) && (isGrounded || isOnBox) && !isMoving) {
-            isMoving = true; //we are also moving in the air, but this is for foosteps sfx, so don't worry about that
-            //StartCoroutine(PlayFootsteps());
+            isMoving = true; //the grounded check is because this is only used for footsteps sfx
         }
         else {
             isMoving = false;
@@ -191,6 +191,7 @@ public class PlayerMovement : MonoBehaviour {
         testOnSlope = OnSlope();
 
         if (OnSlope() && !exitingSlope) {
+            //multiply forces by the mass so that movement stays the same when the player is holding a box
             rb.AddForce(GetSlopeMoveDirection() * moveSpeed * rb.mass, ForceMode.Force);
 
             if (rb.velocity.y > 0) {
@@ -213,15 +214,12 @@ public class PlayerMovement : MonoBehaviour {
     private void PlayFootsteps() {
 
         footstepTimer += 0.01f; //gets called in fixedupdate so it's even
-        //print(footstepTimer);
 
         if (footstepTimer >= 0.2 && !playedFootstep1) {
-            //print("step");
             audioSource.PlayOneShot(footstep1);
             playedFootstep1 = true;
         }
         else if (footstepTimer >= 0.4 && !playedFootstep2) {
-            //print("pets");
             audioSource.PlayOneShot(footstep2);
             playedFootstep2 = true;
         }
@@ -258,14 +256,7 @@ public class PlayerMovement : MonoBehaviour {
         //reset y velocity so the jumps are all consistent
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        //use more force if we're holding something so the jump reaches the same height
-       // if (attachedObject != null) {
-            rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
-       // }
-      //  else {
-            //rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
-       // }
-        
+        rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
     }
 
     private void ResetJump() {
@@ -295,9 +286,7 @@ public class PlayerMovement : MonoBehaviour {
             attachedObject.SetParent(null);
             attachedObject.GetComponent<BoxController>().isHeld = false;
 
-            //attachedObject.gameObject.layer = LayerMask.NameToLayer("Box");
-            //Physics.IgnoreCollision(GetComponentInChildren<CapsuleCollider>(), attachedObject.GetComponent<Collider>(), false);
-            //rb.constraints = RigidbodyConstraints.FreezePositionY;
+            //reset player mass
             rb.mass = 1;
 
             Destroy(holdJoint);
@@ -307,12 +296,8 @@ public class PlayerMovement : MonoBehaviour {
             cubeRb.useGravity = true;
             cubeRb.freezeRotation = false;
 
-            //cubeRb.drag = 15;
-            //cubeRb.angularDrag = 10;
+            //reset cube mass
             cubeRb.mass = 500;
-
-            //cubeRb.drag = 0;
-            //need to add a cube controller that checks for ground and sets drag only if on ground
 
             attachedObject = null;
         }
@@ -327,9 +312,7 @@ public class PlayerMovement : MonoBehaviour {
                         attachedObject.SetParent(holdArea);
                         attachedObject.GetComponent<BoxController>().isHeld = true;
 
-                        //attachedObject.gameObject.layer = LayerMask.NameToLayer("HeldBox");
-                        //Physics.IgnoreCollision(GetComponentInChildren<CapsuleCollider>(), attachedObject.GetComponent<Collider>());
-
+                        //increase the player mass so that the box can't lift up the player when they look down
                         rb.mass = 200;
 
                         Rigidbody cubeRb = attachedObject.GetComponent<Rigidbody>();
@@ -339,17 +322,11 @@ public class PlayerMovement : MonoBehaviour {
 
                         holdJoint = this.AddComponent<FixedJoint>();
                         holdJoint.connectedBody = cubeRb;
-                        holdJoint.breakForce = 2000f; //?
-                        //screw it
-                        //holdJoint.enableCollision = true;
-                        //rb.constraints = RigidbodyConstraints.FreezePositionY; //stop
+                        holdJoint.breakForce = 2300f; 
 
                         cubeRb.drag = 4;
                         cubeRb.angularDrag = 0;
                         cubeRb.mass = 1;
-
-                        //cubeRb.drag = 10;
-                        //cubeRb.angularDrag = 10;
 
                         interactionPrompt.text = ""; //hide the prompt once they've picked it up
                     }
@@ -384,9 +361,9 @@ public class PlayerMovement : MonoBehaviour {
         readingNote = true; //keep track of whether it's the note so they can put it down
         Invoke(nameof(ResetNote), jumpCooldown);
     }
-    //ensure that the note isn't put down immediately after the user picks it up
+    
     private void ResetNote() {
-        readyToPutDownNote = true;
+        readyToPutDownNote = true; //ensure that the note isn't put down immediately after the user picks it up
     }
 
 }

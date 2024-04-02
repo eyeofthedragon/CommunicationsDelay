@@ -13,12 +13,8 @@ public class SubtitleController : MonoBehaviour {
 
         string[] strings = fullText.Split('/');
 
-        //for (int i = 0; i < strings.Length; i++) {
-        //    print(strings[i]);
         StartCoroutine(ShowNextString(strings));
-            
-            //subtitle.text = strings[i];
-        //}
+
     }
 
     IEnumerator ShowNextString(string[] strings) {

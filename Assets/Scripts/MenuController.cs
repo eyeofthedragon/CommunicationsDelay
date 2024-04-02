@@ -38,7 +38,6 @@ public class MenuController : MonoBehaviour {
         }
     }
 
-
     IEnumerator fadeOut(string sceneName) {
         fader.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.5f);

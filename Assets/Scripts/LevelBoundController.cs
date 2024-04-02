@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelBoundController : MonoBehaviour
 {
     public DialogueGraph tree;
+    public DialogueManager dialogueManager;
     public MailboxController mailbox;
 
     bool mailDelivered;
@@ -23,6 +24,6 @@ public class LevelBoundController : MonoBehaviour
     }
 
     public void TriggerDialogue() {
-        FindAnyObjectByType<DialogueManager>().StartDialogue(tree.nodes[0]);
+        dialogueManager.StartDialogue(tree.nodes[0]);
     }
 }

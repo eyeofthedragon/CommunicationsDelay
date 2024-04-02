@@ -196,9 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088aff174d1c7274a832560364302c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionPrompt: {fileID: 0}
-  test: {fileID: 8300000, guid: 41fe389abc552ae4ea67e78dcfbfa9fb, type: 3}
   mailDelivered: 0
+  closingSound: {fileID: 8300000, guid: 41fe389abc552ae4ea67e78dcfbfa9fb, type: 3}
 --- !u!95 &8027630903726854135
 Animator:
   serializedVersion: 5

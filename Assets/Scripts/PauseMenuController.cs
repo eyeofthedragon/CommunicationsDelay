@@ -7,17 +7,13 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour {
     public Canvas pauseMenu;
     public DialogueManager dialogueManager;
-    //public AudioSource gameMusic;
-    //public AudioClip pauseOpen;
-    //public AudioClip pauseClose;
 
-    AudioSource soundEffectSource;
-
+    CanvasGroup canvasGroup;
     bool pauseMenuOpen = false;
 
     private void Start() {
         pauseMenu.enabled = false;
-        //soundEffectSource = GetComponent<AudioSource>();
+        canvasGroup = pauseMenu.GetComponent<CanvasGroup>();
     }
 
     private void Update() {
@@ -31,8 +27,7 @@ public class PauseMenuController : MonoBehaviour {
 
             AudioListener.pause = true;
 
-            //gameMusic.Pause();
-            //soundEffectSource.PlayOneShot(pauseOpen);
+            canvasGroup.interactable = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuOpen) {
             CloseMenu();
@@ -49,7 +44,7 @@ public class PauseMenuController : MonoBehaviour {
 
         AudioListener.pause = false;
 
-        //soundEffectSource.PlayOneShot(pauseClose);
-        //gameMusic.Play();
+        //it seems like sometimes the space bar is pressing pause menu buttons during gameplay. ensure it doesn't do that
+        canvasGroup.interactable = false;
     }
 }
