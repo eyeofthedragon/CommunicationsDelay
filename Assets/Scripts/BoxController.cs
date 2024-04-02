@@ -9,8 +9,7 @@ public class BoxController : MonoBehaviour {
     public float angularDrag;
 
     public bool isHeld;
-
-    public bool isGrounded;
+    bool isGrounded;
 
 
     Rigidbody rb;
@@ -31,7 +30,7 @@ public class BoxController : MonoBehaviour {
             else {
                 rb.drag = drag;
                 rb.angularDrag = angularDrag;
-                rb.mass = 500;
+                rb.mass = 500; //make sure the boxes can't be moved easily, even when the player is carrying another box
             }
         }
     }
