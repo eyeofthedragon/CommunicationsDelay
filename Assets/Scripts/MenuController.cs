@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class MenuController : MonoBehaviour {
     public Image fader;
+    public TMP_Text subtitles;
+    public bool subtitlesEnabled;
 
     private void Start() {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainMenu")) {
@@ -26,6 +29,13 @@ public class MenuController : MonoBehaviour {
     }
     public void QuitGame() {
         Application.Quit();
+    }
+
+    public void ToggleSubtitles() {
+        subtitlesEnabled = !subtitlesEnabled;
+        if (!subtitlesEnabled) {
+            subtitles.text = ""; //ensure the text goes away if they disable subtitles mid-recording
+        }
     }
 
 
