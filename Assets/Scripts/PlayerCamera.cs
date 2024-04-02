@@ -31,9 +31,9 @@ public class PlayerCamera : MonoBehaviour {
             xRotation = Mathf.Clamp(xRotation, -90f, 90f); //clamp the rotation so the user can't look too far up/down
 
 
-            // rotate the camera
+            //rotate the camera
             transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-            // rotate the object that stores what direction we're facing
+            //rotate the object that stores what direction we're facing
             orientation.rotation = Quaternion.Euler(xRotation, yRotation, 0);
             //rotate the player so that they can't turn around and see themself
             player.rotation = Quaternion.Euler(0, yRotation, 0);

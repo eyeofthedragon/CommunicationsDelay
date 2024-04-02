@@ -4,11 +4,9 @@ using TMPro;
 using UnityEngine;
 
 public class MailboxController : MonoBehaviour {
-
-    public TMP_Text interactionPrompt;
-    public AudioClip test;
-
+   
     public bool mailDelivered = false;
+    public AudioClip closingSound;
 
     AudioSource audioSource;
     Animator animator;
@@ -20,16 +18,14 @@ public class MailboxController : MonoBehaviour {
 
     public void DeliverMail() {
         if (!mailDelivered) {
-            //play a sound effect
+            //play the sound of the mail being put in the mailbox
             audioSource.Play();
 
             //close the mailbox and put the little flag up
             animator.SetBool("closeMailbox", true);
 
+            //play the sound of the mailbox closing
             StartCoroutine(PlayClosingSound());
-            //audioSource.PlayOneShot(test);
-            
-
 
             mailDelivered = true;
         }
@@ -37,6 +33,6 @@ public class MailboxController : MonoBehaviour {
 
     IEnumerator PlayClosingSound() {
         yield return new WaitForSeconds(1.75f);
-        audioSource.PlayOneShot(test);
+        audioSource.PlayOneShot(closingSound);
     }
 }

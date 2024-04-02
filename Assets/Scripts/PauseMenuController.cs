@@ -7,17 +7,11 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour {
     public Canvas pauseMenu;
     public DialogueManager dialogueManager;
-    //public AudioSource gameMusic;
-    //public AudioClip pauseOpen;
-    //public AudioClip pauseClose;
-
-    AudioSource soundEffectSource;
 
     bool pauseMenuOpen = false;
 
     private void Start() {
         pauseMenu.enabled = false;
-        //soundEffectSource = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -30,9 +24,6 @@ public class PauseMenuController : MonoBehaviour {
             Cursor.visible = true;
 
             AudioListener.pause = true;
-
-            //gameMusic.Pause();
-            //soundEffectSource.PlayOneShot(pauseOpen);
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuOpen) {
             CloseMenu();
@@ -48,8 +39,5 @@ public class PauseMenuController : MonoBehaviour {
         Cursor.visible = false;
 
         AudioListener.pause = false;
-
-        //soundEffectSource.PlayOneShot(pauseClose);
-        //gameMusic.Play();
     }
 }
