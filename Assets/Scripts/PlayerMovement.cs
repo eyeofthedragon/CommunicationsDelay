@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour {
     float horizontalInput;
     float verticalInput;
 
-    float itemInteractionDistance = 2;
+    float itemInteractionDistance = 2.25f;
     bool cast;
     RaycastHit hit;
     RaycastHit standingBox;
@@ -322,7 +322,7 @@ public class PlayerMovement : MonoBehaviour {
 
                         holdJoint = this.AddComponent<FixedJoint>();
                         holdJoint.connectedBody = cubeRb;
-                        holdJoint.breakForce = 3000f; 
+                        holdJoint.breakForce = 2300f; 
 
                         cubeRb.drag = 4;
                         cubeRb.angularDrag = 0;

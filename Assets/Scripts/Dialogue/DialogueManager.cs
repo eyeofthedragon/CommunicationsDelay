@@ -9,8 +9,7 @@ using DG.Tweening;
 public class DialogueManager : MonoBehaviour {
     public TMP_Text dialogueText;
     public Button nextButton;
-
-    //public DisplayInfo displayInfo;
+    public CanvasGroup canvasGroup;
 
     public Vector3 showPanelPos = new Vector3(0, -1, 0);
     public Vector3 hidePanelPos = new Vector3(0, -400, 0);
@@ -28,6 +27,7 @@ public class DialogueManager : MonoBehaviour {
     private void Start() {
         sentences = new Queue<string>();
         source = GetComponent<AudioSource>();
+        canvasGroup = GetComponent<CanvasGroup>();
 
     }
 
@@ -41,6 +41,8 @@ public class DialogueManager : MonoBehaviour {
         StopAllCoroutines();
         dialogueIsPlaying = true;
         currentNode = rootNode;
+
+        canvasGroup.interactable = true;
 
         //check for types (either regular or end)
         if (currentNode.GetType() == typeof(DialogueEndNode)) {
@@ -117,6 +119,7 @@ public class DialogueManager : MonoBehaviour {
     }
 
     public void EndDialogue() {
+        canvasGroup.interactable = false;
         nextButton.gameObject.SetActive(false); //ensure that this doesn't get pressed by accident
         StopAllCoroutines();
         dialogueText.text = ""; //ensure that the old text doesn't show when the panel moves back up

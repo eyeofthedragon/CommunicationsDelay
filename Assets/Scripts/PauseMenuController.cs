@@ -8,10 +8,12 @@ public class PauseMenuController : MonoBehaviour {
     public Canvas pauseMenu;
     public DialogueManager dialogueManager;
 
+    CanvasGroup canvasGroup;
     bool pauseMenuOpen = false;
 
     private void Start() {
         pauseMenu.enabled = false;
+        canvasGroup = pauseMenu.GetComponent<CanvasGroup>();
     }
 
     private void Update() {
@@ -24,6 +26,8 @@ public class PauseMenuController : MonoBehaviour {
             Cursor.visible = true;
 
             AudioListener.pause = true;
+
+            canvasGroup.interactable = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuOpen) {
             CloseMenu();
@@ -39,5 +43,8 @@ public class PauseMenuController : MonoBehaviour {
         Cursor.visible = false;
 
         AudioListener.pause = false;
+
+        //it seems like sometimes the space bar is pressing pause menu buttons during gameplay. ensure it doesn't do that
+        canvasGroup.interactable = false;
     }
 }
