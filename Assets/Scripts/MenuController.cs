@@ -10,12 +10,14 @@ public class MenuController : MonoBehaviour {
     public Image fader;
     public TMP_Text subtitles;
     public bool subtitlesEnabled;
+    public Canvas controlsCanvas;
 
     private void Start() {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainMenu")) {
             fadeIn();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            controlsCanvas.gameObject.SetActive(false);
         }
     }
 
@@ -37,6 +39,20 @@ public class MenuController : MonoBehaviour {
             subtitles.text = ""; //ensure the text goes away if they disable subtitles mid-recording
         }
     }
+
+    public void ShowControls() {
+        fader.DOFade(1, 1).OnComplete(() => {
+            controlsCanvas.gameObject.SetActive(true);
+            fader.DOFade(0, 0.8f);
+            StartCoroutine(SlowlyStartGame());
+        });
+    }
+
+    IEnumerator SlowlyStartGame() {
+        yield return new WaitForSeconds(4);
+        StartGame();
+    }
+
 
     IEnumerator fadeOut(string sceneName) {
         fader.DOFade(1, 0.5f);

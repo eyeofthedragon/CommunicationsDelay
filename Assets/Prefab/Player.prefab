@@ -93,8 +93,7 @@ MonoBehaviour:
   boxMask:
     serializedVersion: 2
     m_Bits: 64
-  maxSlopeAngle: 65
-  testOnSlope: 0
+  maxSlopeAngle: 55
   orientation: {fileID: 2937657883186897680}
   attachedObject: {fileID: 0}
   holdArea: {fileID: 6879627567981462414}

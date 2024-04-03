@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour {
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
     private bool exitingSlope;
-    public bool testOnSlope;
 
     [Header("Object Manipulation")]
     public Transform orientation;
@@ -187,8 +186,6 @@ public class PlayerMovement : MonoBehaviour {
         //calculate direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         moveDirection.y = 0; //make sure they don't move on the y axis when they're just walking around
-
-        testOnSlope = OnSlope();
 
         if (OnSlope() && !exitingSlope) {
             //multiply forces by the mass so that movement stays the same when the player is holding a box
